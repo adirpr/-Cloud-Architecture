@@ -27,15 +27,14 @@ def handler(ctx, data: io.BytesIO=None):
         body = json.loads(data.getvalue())
         info = body.get("info")
         get_object_response = object_storage.get_object(namespace, bucket_name, file_n)
-        console.log(get_object_response)
         content = get_object_response.data.content.decode() + '\n' + info
-        console.log(content)
-        obj1 = object_storage.put_object(namespace, bucket_name, file_n, content)
+        objd = object_storage.put_object(namespace, bucket_name, file_n, content)
 
     except (Exception, ValueError) as ex:
         logging.getLogger().info('error: ' + str(ex))
-		
+
     return response.Response(
-        ctx, response_data=content + "bamba!!!" obj1,
-        headers={"Content-Type": "application/json"}
+        ctx, response_data = json.dumps(
+            {"message": "Saved info"}),
+        headers={"Content-Typ": "application/json"}
     )
